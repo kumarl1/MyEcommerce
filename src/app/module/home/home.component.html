@@ -1,0 +1,209 @@
+<!-- Hero Section with Enhanced Design -->
+<div class="hero-section">
+  <div class="container">
+    <div class="row align-items-center min-vh-80">
+      <div class="col-lg-6">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <i class="fas fa-star text-warning me-1"></i>
+            Trusted by 10,000+ customers
+          </div>
+          <h1 class="hero-title">
+            Discover Amazing Products at 
+            <span class="text-gradient">RIMSS Store</span>
+          </h1>
+          <p class="hero-subtitle">Your one-stop destination for quality products</p>
+          <p class="hero-description">
+            From the latest electronics to fashion trends, home essentials to garden supplies - 
+            we've got everything you need with fast delivery and excellent service.
+          </p>
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-lg btn-animated me-3" (click)="shopNow()">
+              <i class="fas fa-shopping-bag me-2"></i>
+              <span>Shop Now</span>
+            </button>
+            <button class="btn btn-outline-primary btn-lg btn-animated" (click)="exploreCategories()">
+              <i class="fas fa-compass me-2"></i>
+              <span>Explore Categories</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-image-container">
+          <div class="hero-image-wrapper">
+            <img src="assets/img/hero/shopping-hero.png" alt="Shopping Experience" 
+                 class="img-fluid hero-main-image"
+                 (error)="onImageError($event)">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Features Section -->
+<div class="features-section">
+  <div class="container">
+    <div class="section-header text-center">
+      <h2 class="section-title">Why Choose RIMSS Store?</h2>
+      <p class="section-subtitle">Experience the difference with our premium services</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-3 col-md-6">
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <div class="feature-icon">
+              <i class="fas fa-shipping-fast"></i>
+            </div>
+          </div>
+          <h5>Lightning Fast Delivery</h5>
+          <p>Free shipping on orders over $50. Same-day delivery available in select cities.</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <div class="feature-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+          </div>
+          <h5>Bank-Level Security</h5>
+          <p>Your payment information is protected with enterprise-grade encryption.</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <div class="feature-icon">
+              <i class="fas fa-undo-alt"></i>
+            </div>
+          </div>
+          <h5>Hassle-Free Returns</h5>
+          <p>30-day money-back guarantee. No questions asked return policy.</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <div class="feature-icon">
+              <i class="fas fa-headset"></i>
+            </div>
+          </div>
+          <h5>24/7 Expert Support</h5>
+          <p>Get instant help from our friendly customer support team anytime, anywhere.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Categories Section -->
+<div class="categories-section">
+  <div class="container">
+    <div class="section-header text-center">
+      <h2 class="section-title">Shop by Category</h2>
+      <p class="section-subtitle">Discover our wide range of products</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-4 col-md-6" *ngFor="let category of popularCategories">
+        <div class="category-card" (click)="navigateToCategory(category.slug)">
+          <div class="category-image-container">
+            <img [src]="category.image" [alt]="category.name" class="category-image"
+                 (error)="onImageError($event)">
+            <div class="category-overlay">
+              <div class="overlay-content">
+                <i class="fas fa-arrow-right"></i>
+                <span>Shop Now</span>
+              </div>
+            </div>
+          </div>
+          <div class="category-content">
+            <h5>{{ category.name }}</h5>
+            <p>{{ category.description }}</p>
+            <span class="product-count">{{ category.productCount }}+ products</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Featured Products Section -->
+<div class="featured-products">
+  <div class="container">
+    <div class="section-header text-center">
+      <h2 class="section-title">Trending Products</h2>
+      <p class="section-subtitle">Hand-picked products just for you</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-xl-3 col-lg-4 col-md-6" *ngFor="let product of featuredProducts">
+        <div class="product-card">
+          <div class="product-image-container">
+            <img [src]="product.image" [alt]="product.name" class="product-image"
+                 (error)="onImageError($event)">
+            <div class="product-badge" *ngIf="product.discount > 0">
+              -{{ product.discount }}%
+            </div>
+            <div class="product-overlay">
+              <button class="btn btn-primary" (click)="viewProduct(product.id)">
+                <i class="fas fa-eye me-2"></i>View Product
+              </button>
+            </div>
+          </div>
+          <div class="product-content">
+            <h6>{{ product.name }}</h6>
+            <div class="product-rating">
+              <div class="stars">
+                <i class="fas fa-star" *ngFor="let star of getStars(product.rating)"></i>
+              </div>
+              <span class="rating-text">({{ product.rating }})</span>
+            </div>
+            <div class="product-price">
+              <span class="current-price">${{ product.currentPrice }}</span>
+              <span class="original-price" *ngIf="product.originalPrice !== product.currentPrice">
+                ${{ product.originalPrice }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-5">
+      <button class="btn btn-primary btn-lg" (click)="viewAllProducts()">
+        View All Products 
+        <i class="fas fa-arrow-right ms-2"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Newsletter Section -->
+<div class="newsletter-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <div class="newsletter-content">
+          <h3>Stay in the Loop</h3>
+          <p>Subscribe to our newsletter and be the first to know about exclusive deals, new arrivals, and special offers!</p>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="newsletter-form">
+          <div class="input-group">
+            <input type="email" class="form-control" placeholder="Enter your email address" 
+                   [(ngModel)]="newsletterEmail">
+            <button class="btn btn-primary" type="button" (click)="subscribeNewsletter()">
+              Subscribe
+              <i class="fas fa-paper-plane ms-2"></i>
+            </button>
+          </div>
+          <small class="form-text">
+            <i class="fas fa-lock me-1"></i>
+            We respect your privacy. Unsubscribe anytime.
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

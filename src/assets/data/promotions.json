@@ -1,0 +1,15 @@
+[{
+    "url": "assets/img/carousel/s1.jpg",
+    "text": "First slide label",
+    "subText": "Nulla vitae elit libero, a pharetra augue mollis interdum"
+},
+{
+    "url": "assets/img/carousel/s2.jpg",
+    "text": "Second slide label",
+    "subText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+},
+{
+    "url": "assets/img/carousel/s3.jpg",
+    "text": "Third slide label",
+    "subText": "Praesent commodo cursus magna, vel scelerisque nisl consectetur"
+}]

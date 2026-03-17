@@ -1,0 +1,33 @@
+
+<div class='product-details px-4 container' *ngIf='product'>
+  <div>
+    <div class='row'>
+      <div class='col-md-4'>
+        <img class='center-block img-responsive'
+             [style.margin.px]='2'
+             [src]='product.imageUrl'
+             [title]='product.productName'>
+      </div>
+      <div class='col-md-7 ml-2'>
+        <div class="product-details-row">
+          <div  class="product-brand">YCompany</div>
+          <h1 class="product-title">{{product.description}}</h1>
+          <div  class="product-price">{{product.discountPrice}}</div>
+          <div  class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at purus pulvinar, placerat turpis ac, interdum metus. In eget massa sed enim hendrerit auctor a eget.</div>
+    </div>
+  </div>
+
+  <div class="product-details-action">
+    <button type="button" class='btn btn-secondary m-2'
+            (click)='onBack()'
+            style='width:80px;'>
+      <i class='fa fa-chevron-left'></i> Back
+    </button>
+
+    <button type="button" class='btn btn-primary'
+            (click)='addToCart(product)'
+            style='width:160px'>
+       Add to Cart <i class='fa fa-chevron-right'></i>
+    </button>
+  </div>
+</div>

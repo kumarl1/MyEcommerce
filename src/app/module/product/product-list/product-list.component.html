@@ -1,0 +1,315 @@
+<div class="card-body">
+    <!-- Debug info -->
+    <div class="alert alert-info" *ngIf="products.length === 0 && !errorMessage">
+        Loading products... Please wait.
+    </div>
+    <div class="alert alert-danger" *ngIf="errorMessage">
+        Error: {{errorMessage}}
+    </div>
+    <div class="alert alert-warning" *ngIf="products.length > 0 && filteredProducts.length === 0">
+        No products match your filters. Total products available: {{products.length}}
+    </div>
+    <div class="alert alert-success" *ngIf="filteredProducts.length > 0">
+        Loaded {{filteredProducts.length}} products successfully
+    </div>
+    
+    <div class="row" *ngIf="model$ | async as model">
+        <!-- Filter Panel -->
+        <div class='col-md-3 filter-sidebar'>
+            <div class="filter-panel">
+                <div class="filter-header">
+                    <h5 class="filter-title">
+                        <i class="fas fa-filter me-2"></i>Filters
+                    </h5>
+                    <button class="btn btn-link btn-sm text-danger" (click)="clearAllFilters()">
+                        <i class="fas fa-times me-1"></i>Clear All
+                    </button>
+                </div>
+
+                <!-- Search Filter -->
+                <div class="filter-section">
+                    <h6 class="filter-section-title">
+                        <i class="fas fa-search me-2"></i>{{model.productTitle}}
+                    </h6>
+                    <div class="search-input-container">
+                        <input [(ngModel)]='searchFilter' 
+                               type="text" 
+                               class="form-control search-input" 
+                               placeholder="Search products..." 
+                               (input)="filterByProductName($event)">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                </div>
+
+                <!-- Category Filter -->
+                <div class="filter-section" *ngIf="categories.length > 0">
+                    <h6 class="filter-section-title">
+                        <i class="fas fa-tags me-2"></i>Categories
+                    </h6>
+                    <div class="category-list">
+                        <div class="form-check category-item" *ngFor="let category of categories">
+                            <input class="form-check-input" 
+                                   type="checkbox" 
+                                   [id]="'category-' + category.value"
+                                   [value]="category.value"
+                                   (change)="onCategorySelect(category.value, $event)">
+                            <label class="form-check-label" [for]="'category-' + category.value">
+                                {{category.viewValue}}
+                                <span class="item-count">({{getCategoryCount(category.value)}})</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Price Range Filter -->
+                <div class="filter-section">
+                    <h6 class="filter-section-title">
+                        <i class="fas fa-rupee-sign me-2"></i>Price Range
+                    </h6>
+                    <div class="price-range-container">
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <input type="number" 
+                                       class="form-control form-control-sm" 
+                                       placeholder="Min" 
+                                       [(ngModel)]="priceRange.min"
+                                       (input)="onPriceRangeChange()">
+                            </div>
+                            <div class="col-6">
+                                <input type="number" 
+                                       class="form-control form-control-sm" 
+                                       placeholder="Max" 
+                                       [(ngModel)]="priceRange.max"
+                                       (input)="onPriceRangeChange()">
+                            </div>
+                        </div>
+                        <div class="price-range-presets mt-2">
+                            <button class="btn btn-outline-secondary btn-sm me-1 mb-1" 
+                                    (click)="setPriceRange(0, 500)">Under ₹500</button>
+                            <button class="btn btn-outline-secondary btn-sm me-1 mb-1" 
+                                    (click)="setPriceRange(500, 1000)">₹500-₹1000</button>
+                            <button class="btn btn-outline-secondary btn-sm me-1 mb-1" 
+                                    (click)="setPriceRange(1000, 2000)">₹1000-₹2000</button>
+                            <button class="btn btn-outline-secondary btn-sm me-1 mb-1" 
+                                    (click)="setPriceRange(2000, null)">Above ₹2000</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Color Filter -->
+                <div class="filter-section">
+                    <h6 class="filter-section-title">
+                        <i class="fas fa-palette me-2"></i>{{model.colorTitle}}
+                    </h6>
+                    <form [formGroup]="myForm">
+                        <div class="color-options">
+                            <div class="color-option" *ngFor="let color of availableColors">
+                                <label class="color-label" [class]="'color-' + color.value">
+                                    <input type="checkbox" 
+                                           class="color-checkbox"
+                                           autocomplete="off" 
+                                           (change)="onColorSelect(color.value, $event)">
+                                    <span class="color-circle" [style.background-color]="color.hex"></span>
+                                    <span class="color-name">{{color.name}}</span>
+                                    <span class="item-count">({{getColorCount(color.value)}})</span>
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Rating Filter -->
+                <div class="filter-section">
+                    <h6 class="filter-section-title">
+                        <i class="fas fa-star me-2"></i>Customer Rating
+                    </h6>
+                    <div class="rating-options">
+                        <div class="form-check rating-item" *ngFor="let rating of ratingOptions">
+                            <input class="form-check-input" 
+                                   type="checkbox" 
+                                   [id]="'rating-' + rating.value"
+                                   [value]="rating.value"
+                                   (change)="onRatingSelect(rating.value, $event)">
+                            <label class="form-check-label rating-label" [for]="'rating-' + rating.value">
+                                <div class="stars">
+                                    <i class="fas fa-star" *ngFor="let star of rating.stars"></i>
+                                    <i class="far fa-star" *ngFor="let star of rating.emptyStars"></i>
+                                </div>
+                                <span class="rating-text">{{rating.text}}</span>
+                                <span class="item-count">({{getRatingCount(rating.value)}})</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Discount Filter -->
+                <div class="filter-section" *ngIf="options.length > 0">
+                    <h6 class="filter-section-title">
+                        <i class="fas fa-percentage me-2"></i>Discounts
+                    </h6>
+                    <div class="discount-options">
+                        <div class="form-check discount-item" *ngFor="let discount of options">
+                            <input class="form-check-input" 
+                                   type="checkbox" 
+                                   [id]="'discount-' + discount.discountCode"
+                                   [value]="discount.discountCode"
+                                   (change)="onDiscountSelect(discount.discountCode, $event)">
+                            <label class="form-check-label" [for]="'discount-' + discount.discountCode">
+                                {{discount.discountName}}
+                                <span class="discount-badge">{{discount.discountPercentage}}% OFF</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Filters -->
+                <div class="active-filters" *ngIf="hasActiveFilters()">
+                    <h6 class="filter-section-title">
+                        <i class="fas fa-filter me-2"></i>Active Filters
+                    </h6>
+                    <div class="filter-tags">
+                        <span class="filter-tag" *ngFor="let filter of getActiveFilters()">
+                            {{filter.label}}
+                            <i class="fas fa-times" (click)="removeFilter(filter.type, filter.value)"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Product Grid -->
+        <div class="col-md-9 product-grid-container">
+            <!-- Results Header -->
+            <div class="results-header">
+                <div class="results-info">
+                    <h6 class="results-count">
+                        Showing {{filteredProducts.length}} of {{products.length}} products
+                    </h6>
+                </div>
+                <div class="sort-options">
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle btn-sm" 
+                                type="button" 
+                                id="sortDropdown" 
+                                data-bs-toggle="dropdown" 
+                                aria-expanded="false">
+                            <i class="fas fa-sort me-1"></i>Sort by: {{currentSort.label}}
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+                            <li><a class="dropdown-item" 
+                                   href="#" 
+                                   (click)="sortProducts('relevance')">
+                                   <i class="fas fa-star me-2"></i>Relevance</a></li>
+                            <li><a class="dropdown-item" 
+                                   href="#" 
+                                   (click)="sortProducts('price-low-high')">
+                                   <i class="fas fa-arrow-up me-2"></i>Price: Low to High</a></li>
+                            <li><a class="dropdown-item" 
+                                   href="#" 
+                                   (click)="sortProducts('price-high-low')">
+                                   <i class="fas fa-arrow-down me-2"></i>Price: High to Low</a></li>
+                            <li><a class="dropdown-item" 
+                                   href="#" 
+                                   (click)="sortProducts('name-a-z')">
+                                   <i class="fas fa-sort-alpha-down me-2"></i>Name: A to Z</a></li>
+                            <li><a class="dropdown-item" 
+                                   href="#" 
+                                   (click)="sortProducts('rating')">
+                                   <i class="fas fa-star me-2"></i>Customer Rating</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="products-grid" *ngIf="filteredProducts.length > 0; else noProductsTemplate">
+                <div class="product-card" *ngFor='let product of filteredProducts; trackBy: trackByProductId'>
+                    <div class="product-image-container">
+                        <a [routerLink]="['/products', product.productId]">
+                            <img [src]="product.imageUrl" 
+                                 [alt]="product.productName" 
+                                 class="product-image" 
+                                 loading="lazy"
+                                 (error)="onImageError($event, product)" />
+                        </a>
+                        <div class="product-badges" *ngIf="getProductBadges(product).length > 0">
+                            <span class="badge" 
+                                  *ngFor="let badge of getProductBadges(product)" 
+                                  [class]="'badge-' + badge.type">
+                                {{badge.text}}
+                            </span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-sm btn-outline-primary wishlist-btn" 
+                                    (click)="toggleWishlist(product)" 
+                                    [class.active]="isInWishlist(product.productId)">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary compare-btn" 
+                                    (click)="addToCompare(product)">
+                                <i class="fas fa-balance-scale"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-details">
+                        <a [routerLink]="['/products', product.productId]" class="product-title-link">
+                            <h5 class="product-title">{{product.description || product.productName}}</h5>
+                        </a>
+                        
+                        <div class="product-rating" *ngIf="product.starRating">
+                            <div class="stars">
+                                <i class="fas fa-star" 
+                                   *ngFor="let star of getStarArray(product.starRating); let i = index" 
+                                   [class.filled]="i < product.starRating"></i>
+                            </div>
+                            <span class="rating-text">({{product.starRating}}) {{product.reviewCount || 0}} reviews</span>
+                        </div>
+                        
+                        <div class="product-price-section">
+                            <div class="price-container">
+                                <span class="current-price">₹{{product.discountPrice || product.actualPrice}}</span>
+                                <span class="original-price" 
+                                      *ngIf="product.discountPrice && product.actualPrice !== product.discountPrice">
+                                    ₹{{product.actualPrice}}
+                                </span>
+                                <span class="discount-percent" 
+                                      *ngIf="getDiscountPercentage(product) > 0">
+                                    {{getDiscountPercentage(product)}}% OFF
+                                </span>
+                            </div>
+                            
+                            <div class="loyalty-price" *ngIf="product.loyaltyPrice">
+                                <span class="loyalty-label">₹{{product.loyaltyPrice}} for TriBe Members</span>
+                            </div>
+                        </div>
+                        
+                        <div class="product-actions-bottom">
+                            <button class="btn btn-primary btn-sm add-to-cart-btn" 
+                                    (click)="addToCart(product)">
+                                <i class="fas fa-shopping-cart me-1"></i>Add to Cart
+                            </button>
+                            <a [routerLink]="['/products', product.productId]" 
+                               class="btn btn-outline-primary btn-sm">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- No Products Template -->
+            <ng-template #noProductsTemplate>
+                <div class="no-products-found">
+                    <div class="no-products-icon">
+                        <i class="fas fa-search fa-3x"></i>
+                    </div>
+                    <h4>No products found</h4>
+                    <p>Try adjusting your filters or search terms to find what you're looking for.</p>
+                    <button class="btn btn-primary" (click)="clearAllFilters()">
+                        <i class="fas fa-refresh me-1"></i>Clear All Filters
+                    </button>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+  </div>
