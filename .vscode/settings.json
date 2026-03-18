@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/1aaee489-47df-42e3-8c33-1f32621dcaef/resourceGroups/Ecommerce/providers/Microsoft.Web/sites/nagp",
+    "appService.deploySubpath": "dist\\rimss\\browser"
+}

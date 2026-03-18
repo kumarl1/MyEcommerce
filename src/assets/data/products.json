@@ -9,7 +9,7 @@
     "actualPrice": 2000.22,
     "loyaltyPrice": 900.00,
     "starRating": 3.2,
-    "imageUrl": "assets/img/products/1.jpg",
+    "imageUrl": "/assets/img/products/1.jpg",
     "discount": 25,
     "color": "white"
   },
@@ -23,7 +23,7 @@
     "actualPrice": 500,
     "loyaltyPrice": 190,
     "starRating": 4.2,
-    "imageUrl": "assets/img/products/2.jpg",
+    "imageUrl": "/assets/img/products/2.jpg",
     "discount": 20,
     "color": "blue"
   },
@@ -37,7 +37,7 @@
     "actualPrice": 600,
     "loyaltyPrice": 290,
     "starRating": 4.8,
-    "imageUrl": "assets/img/products/3.jpg",
+    "imageUrl": "/assets/img/products/3.jpg",
     "discount": 25,
     "color": "white"
   },
@@ -51,7 +51,7 @@
     "actualPrice": 800,
     "loyaltyPrice": 390,
     "starRating": 3.7,
-    "imageUrl": "assets/img/products/4.jpg",
+    "imageUrl": "/assets/img/products/4.jpg",
     "discount": 20,
     "color": "grey"
   },
@@ -65,7 +65,7 @@
     "actualPrice": 900,
     "loyaltyPrice": 490,
     "starRating": 4.6,
-    "imageUrl": "assets/img/products/5.jpg",
+    "imageUrl": "/assets/img/products/5.jpg",
     "discount": 10,
     "color": "red"
   },
@@ -79,7 +79,7 @@
     "actualPrice": 800,
     "loyaltyPrice": 590,
     "starRating": 4.6,
-    "imageUrl": "assets/img/products/6.jpg",
+    "imageUrl": "/assets/img/products/6.jpg",
     "discount": 10,
     "color": "white"
   },
@@ -93,7 +93,7 @@
     "actualPrice": 700,
     "loyaltyPrice": 690,
     "starRating": 4.6,
-    "imageUrl": "assets/img/products/7.jpg",
+    "imageUrl": "/assets/img/products/7.jpg",
     "discount": 10,
     "color": "black"
   },
@@ -107,7 +107,7 @@
     "actualPrice": 800,
     "loyaltyPrice": 790,
     "starRating": 4.6,
-    "imageUrl": "assets/img/products/8.jpg",
+    "imageUrl": "/assets/img/products/8.jpg",
     "discount": 10,
     "color": "blue"
   },
@@ -121,7 +121,7 @@
     "actualPrice": 1000,
     "loyaltyPrice": 890,
     "starRating": 4.6,
-    "imageUrl": "assets/img/products/9.jpg",
+    "imageUrl": "/assets/img/products/9.jpg",
     "discount": 10,
     "color": "green"
   },
@@ -135,7 +135,7 @@
     "actualPrice": 1100,
     "loyaltyPrice": 990,
     "starRating": 4.6,
-    "imageUrl": "assets/img/products/10.jpg",
+    "imageUrl": "/assets/img/products/10.jpg",
     "discount": 10,
     "color": "black"
   },
@@ -149,7 +149,7 @@
     "actualPrice": 800,
     "loyaltyPrice": 499,
     "starRating": 4.6,
-    "imageUrl": "assets/img/products/11.jpg",
+    "imageUrl": "/assets/img/products/11.jpg",
     "discount": 10,
     "color": "black"
   },
@@ -163,7 +163,7 @@
     "actualPrice": 800.22,
     "loyaltyPrice": 190.00,
     "starRating": 4.6,
-    "imageUrl": "assets/img/products/12.jpg",
+    "imageUrl": "/assets/img/products/12.jpg",
     "discount": 30,
     "color": "grey"
   }
