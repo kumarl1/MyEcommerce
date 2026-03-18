@@ -20,9 +20,15 @@ steps:
     npm install
     ng build --prod
   displayName: 'npm install and build'
+- script: |
+    echo "===== ROOT ====="
+    dir
+    echo "===== DIST ====="
+    dir dist
+  displayName: 'Debug folders'
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: 'dist/rimss'
+    PathtoPublish: 'dist/rimss/browser'
     ArtifactName: 'angular-build'
     publishLocation: 'Container'
   displayName: 'Publish Artifact'
