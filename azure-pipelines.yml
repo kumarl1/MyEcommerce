@@ -23,18 +23,20 @@ steps:
 - script: npx ng build --configuration production
   displayName: 'Build Angular'
 
-# Debug folders
-- script: |
-    echo "===== ROOT ====="
-    dir
-    echo "===== DIST ====="
-    dir dist
-  displayName: 'Debug folders'
+# Archive build output (ZIP for Azure)
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: 'dist/rimss/browser'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/app.zip'
+    replaceExistingArchive: true
+  displayName: 'Create ZIP package'
 
-# Publish artifacts (safe)
+# Publish artifact
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: 'dist'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'angular-build'
     publishLocation: 'Container'
   displayName: 'Publish Artifact'
