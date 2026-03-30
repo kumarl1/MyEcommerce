@@ -82,6 +82,7 @@ export class HeaderComponent implements OnInit , OnDestroy{
 
   ngOnInit() {
     this.setLoginDisplay();
+    this.getCartCount(); // Add this line to initialize cart counter
     this.authService.instance.enableAccountStorageEvents(); 
      this.msalBroadcastService.inProgress$
       .pipe(

@@ -56,41 +56,38 @@ export class ProductDetailComponent implements OnInit {
   }
 
   addToCart(product: IProduct) {
-    if(!this.isProductExist(product)) {
-      this.store$.dispatch(new IncreaseCountAction());
-      this.cartService.saveCart(product);
-      this.toastService.show('Product has been added to card', {
-        classname: 'bg-success text-light',
-        delay: 1000,
-        autohide: true
+    // Check if product exists asynchronously
+    this.cartService.getCart()
+      .pipe(map(products =>  {
+        if(products) {
+          return products.filter(existingProduct => existingProduct.productId === product.productId)
+        }
+        return [];
+      }))
+      .subscribe(existingProducts => {
+        const isProductExist = existingProducts.length > 0;
+        
+        if(!isProductExist) {
+          this.store$.dispatch(new IncreaseCountAction());
+          this.cartService.saveCart(product);
+          this.toastService.show('Product has been added to cart', {
+            classname: 'bg-success text-light',
+            delay: 1000,
+            autohide: true
+          });
+        } else {
+          this.toastService.show('Product has already been added to cart', {
+            classname: 'bg-warning text-light',
+            delay: 1000,
+            autohide: true
+          });
+        }
       });
-    } else {
-      this.toastService.show('Product has already been added to card', {
-        classname: 'bg-warning text-light',
-        delay: 1000,
-        autohide: true
-      });
-    }
   }
 
   private logTime(startMoment: Moment, url: string, method: string) {
     const requestDuration = moment().diff(startMoment, 'milliseconds');
 
     this.logService.logHttpInfo(`HTTP ${method}`, requestDuration, url);
-  }
-
-  private isProductExist (product: IProduct): boolean {
-    let isProductExist = false;
-    this.cartService.getCart()
-    .pipe(map(products =>  {
-      if(products) {
-        return products.filter(existingProduct => existingProduct.productId === product.productId)
-      }
-       return [];
-    }))
-    .subscribe(existingProducts => {
-      isProductExist = existingProducts.length > 0 
-    })
-    return isProductExist;
   }
 }
