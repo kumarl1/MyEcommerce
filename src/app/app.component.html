@@ -1,5 +1,14 @@
-<div class='card'>
-    <app-header></app-header>
-    <router-outlet></router-outlet>
+<!-- <div class='card'>
+   
+  <a class="title" href="/">{{ title }}</a>
+  <div class="toolbar-spacer"></div>
+  <a mat-button [routerLink]="['guarded']">Guarded Component</a>
+  <button  *ngIf="!loginDisplay" (click)="login()">Login</button>
+  <button  color="accent" *ngIf="loginDisplay" (click)="logout()">Logout</button>
+</mat-toolbar> -->
+<div class="container-fluid">
+    
+     <app-header></app-header> 
+    <router-outlet *ngIf="!isIframe"></router-outlet>
     <app-footer></app-footer>
 </div>
