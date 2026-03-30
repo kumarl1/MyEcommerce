@@ -132,7 +132,7 @@ export class HeaderComponent implements OnInit , OnDestroy{
      const accountsLength = this.authService.instance.getAllAccounts().length;
      if(activeAccount){
         this.userName = activeAccount.name ?? '';
-      this.userEmail = activeAccount.username ?? '';
+         this.userEmail = activeAccount.username ?? '';
      }
     if (!activeAccount && accountsLength > 0) {
       let accounts = this.authService.instance.getAllAccounts();
@@ -144,40 +144,24 @@ export class HeaderComponent implements OnInit , OnDestroy{
     
   setLoginDisplay() {
     this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
-    this.isLoggedIn = this.loginDisplay; // Keep both in sync
+    //this.isLoggedIn = this.loginDisplay; // Keep both in sync
   }
  login() {
-    console.log('Login button clicked - debugging...');
-    console.log('MSAL Guard Config:', this.msalGuardConfig);
-    
     if (this.msalGuardConfig.interactionType === InteractionType.Popup) {
       if (this.msalGuardConfig.authRequest) {
         this.authService.loginPopup({
           ...this.msalGuardConfig.authRequest,
         } as PopupRequest)
-          .subscribe({
-            next: (response: AuthenticationResult) => {
-              console.log('Login successful:', response);
-              this.authService.instance.setActiveAccount(response.account);
-            },
-            error: (error) => {
-              console.error('Login error:', error);
-            }
+          .subscribe((response: AuthenticationResult) => {
+            this.authService.instance.setActiveAccount(response.account);
           });
       } else {
         this.authService.loginPopup()
-          .subscribe({
-            next: (response: AuthenticationResult) => {
-              console.log('Login successful:', response);
-              this.authService.instance.setActiveAccount(response.account);
-            },
-            error: (error) => {
-              console.error('Login error:', error);
-            }
+          .subscribe((response: AuthenticationResult) => {
+            this.authService.instance.setActiveAccount(response.account);
           });
       }
     } else {
-      console.log('Using redirect login...');
       if (this.msalGuardConfig.authRequest) {
         this.authService.loginRedirect({
           ...this.msalGuardConfig.authRequest,

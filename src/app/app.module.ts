@@ -58,7 +58,6 @@ import {
   MsalInterceptor,
   MsalModule,
 } from '@azure/msal-angular';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     AppComponent, HeaderComponent, FooterComponent, ErrorComponent, HomeComponent
@@ -71,7 +70,6 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
     RootStoreModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbDropdownModule,
     // --- Initialize MSAL ---
    MsalModule
   ],
