@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ProductService } from '../../../core/services/product.service';
 import { IProduct } from '../product-detail/product';
 import { IDiscount } from './IDiscount.model';
@@ -82,7 +83,8 @@ export class ProductListComponent implements OnInit {
   constructor(
     private productService: ProductService, 
     private fb: FormBuilder, 
-    private productsAdapter: productListAdapter) { }
+    private productsAdapter: productListAdapter,
+    private router: Router) { }
 
   ngOnInit() {
     console.log('ProductListComponent ngOnInit started');
@@ -393,6 +395,12 @@ export class ProductListComponent implements OnInit {
 
   isInWishlist(productId: number): boolean {
     return this.wishlistItems.includes(productId);
+  }
+
+  navigateToProduct(product: IProduct) {
+    this.router.navigate(['/products/detail'], {
+      state: { product: product }
+    });
   }
 
   addToCart(product: IProduct) {

@@ -224,7 +224,7 @@
             <div class="products-grid" *ngIf="filteredProducts.length > 0; else noProductsTemplate">
                 <div class="product-card" *ngFor='let product of filteredProducts; trackBy: trackByProductId'>
                     <div class="product-image-container">
-                        <a [routerLink]="['/products', product.productId]">
+                        <a (click)="navigateToProduct(product)" style="cursor: pointer;">
                             <img [src]="product.imageUrl" 
                                  [alt]="product.productName" 
                                  class="product-image" 
@@ -252,7 +252,7 @@
                     </div>
                     
                     <div class="product-details">
-                        <a [routerLink]="['/products', product.productId]" class="product-title-link">
+                        <a (click)="navigateToProduct(product)" class="product-title-link" style="cursor: pointer;">
                             <h5 class="product-title">{{product.description || product.productName}}</h5>
                         </a>
                         
@@ -288,10 +288,10 @@
                                     (click)="addToCart(product)">
                                 <i class="fas fa-shopping-cart me-1"></i>Add to Cart
                             </button>
-                            <a [routerLink]="['/products', product.productId]" 
-                               class="btn btn-outline-primary btn-sm">
+                            <button (click)="navigateToProduct(product)" 
+                                    class="btn btn-outline-primary btn-sm">
                                 View Details
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>

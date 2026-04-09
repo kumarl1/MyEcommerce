@@ -33,13 +33,30 @@ export class ProductDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    const param = this.route.snapshot.paramMap.get('id');
-    if (param) {
-      const id = +param;
-      this.getProduct(id);
+    // Get product data from navigation state
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras?.state?.['product']) {
+      this.product = navigation.extras.state['product'];
+    } else {
+      // Fallback: check if there's product data in router state
+      const state = history.state;
+      if (state?.product) {
+        this.product = state.product;
+      } else {
+        this.errorMessage = 'No product data available. Please navigate from the product list.';
+        // Redirect back to product list after a delay
+        setTimeout(() => {
+          this.router.navigate(['/products']);
+        }, 3000);
+      }
     }
   }
 
+  onBack(): void {
+    this.router.navigate(['/products']);
+  }
+
+  // Keep this method for potential future use
   getProduct(id: number) {
     const requestBeginTime = moment();
     this.productService.getProduct(id).subscribe({
@@ -49,10 +66,6 @@ export class ProductDetailComponent implements OnInit {
       },
       error: err => this.errorMessage = err
     });
-  }
-
-  onBack(): void {
-    this.router.navigate(['/products']);
   }
 
   addToCart(product: IProduct) {

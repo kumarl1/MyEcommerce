@@ -10,7 +10,7 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
     imports: [
         RouterModule.forChild([
             { path: '', component: ProductListComponent },
-            { path: ':id', component: ProductDetailComponent}
+            { path: 'detail', component: ProductDetailComponent}
         ]),
         SharedModule,
         FormsModule,
